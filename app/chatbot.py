@@ -1,8 +1,10 @@
 import openai
 import os
 
-# 환경 변수에서 API 키 가져오기 (기본값 설정)
+# 환경 변수에서 API 키 가져오기 (디버깅용 출력 추가)
 api_key = os.getenv("OPENAI_API_KEY")
+print("디버깅: OPENAI_API_KEY =", api_key)
+
 if not api_key:
     raise ValueError("OPENAI_API_KEY 환경 변수가 설정되지 않았습니다.")
 
