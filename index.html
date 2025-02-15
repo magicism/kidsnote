@@ -24,7 +24,7 @@
             overflow-y: auto;
         }
         input {
-            width: 90%;
+            width: 80%;
             padding: 10px;
             margin-top: 10px;
         }
@@ -43,14 +43,30 @@
         async function sendMessage() {
             let inputField = document.getElementById("user-input");
             let chatBox = document.getElementById("chat-box");
-            let userText = inputField.value;
-            if (!userText) return;
+            let userText = inputField.value.trim();
+            if (!userText) return; // 빈 입력 방지
 
             // 사용자 메시지 표시
             chatBox.innerHTML += "<p><b>사용자:</b> " + userText + "</p>";
+            inputField.value = ""; // 입력창 초기화
 
-            // API 요청
-            let response = await fetch("https://kidsnote.onrender.com/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ input_text: 
+            try {
+                // API 요청
+                let response = await fetch("https://kidsnote.onrender.com/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ input_text: userText })
+                });
+
+                let result = await response.json();
+                chatBox.innerHTML += "<p><b>챗봇:</b> " + result.response + "</p>";
+
+                // 스크롤 자동 내리기
+                chatBox.scrollTop = chatBox.scrollHeight;
+            } catch (error) {
+                chatBox.innerHTML += "<p style='color: red'><b>오류:</b> 서버 응답이 없습니다.</p>";
+            }
+        }
+    </script>
+</body>
+</html>
