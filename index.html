@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>키즈노트 챗봇</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        #chat-box {
+            width: 90%;
+            max-width: 400px;
+            height: 400px;
+            border: 1px solid #ccc;
+            background: white;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>키즈노트 챗봇</h2>
+    <div id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="메시지를 입력하세요...">
+    <button onclick="sendMessage()">전송</button>
+
+    <script>
+        async function sendMessage() {
+            let inputField = document.getElementById("user-input");
+            let chatBox = document.getElementById("chat-box");
+            let userText = inputField.value;
+            if (!userText) return;
+
+            // 사용자 메시지 표시
+            chatBox.innerHTML += "<p><b>사용자:</b> " + userText + "</p>";
+
+            // API 요청
+            let response = await fetch("https://kidsnote.onrender.com/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ input_text: 
